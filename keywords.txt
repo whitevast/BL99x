@@ -1,0 +1,29 @@
+#######################################
+#        BL99 Keywords              #
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BL99	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)    #
+#######################################
+
+send	KEYWORD2
+setInterval	KEYWORD2
+loop	KEYWORD2
+set	KEYWORD2
+setTemp	KEYWORD2
+setHumi	KEYWORD2
+setBat	KEYWORD2
+setBip	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)                #
+#######################################
+
+BL990	LITERAL1
+BL999	LITERAL1
