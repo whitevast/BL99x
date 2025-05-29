@@ -115,12 +115,13 @@ void BL99::_bl990(int16_t temp, bool bat, bool bip) {
         bl990_data[3 - i] = bitRead(nibble[0], i);
     }
     // отправляем 4 раза
-    for (int8_t y = 0; y < 4; y++) {
+    for (int8_t y = 0; y < 9; y++) {
         _bl990_send(2);
         for (int8_t i = 0; i < 28; i++) {
             _bl990_send(bl990_data[i]);
         }
     }
+    _bl990_send(2);
 }
 
 // формирование пакета датчика BL999 и его отправка
@@ -128,9 +129,9 @@ void BL99::_bl999(int16_t temp, uint8_t humi, bool bat, bool bip) {
     uint8_t bl999_data[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     uint8_t nibble[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     // заполняем id
-    for (int8_t i = 5; i >= 0; i--) {
-        if (i > 1) bl999_data[5 - i] = bitRead(_bl99_id, i);
-        else bl999_data[7 - i] = bitRead(_bl99_id, i);
+    for (int8_t i = 0; i <= 5; i++) {
+        if (i < 4) bl999_data[i] = bitRead(_bl99_id, i);
+        else bl999_data[i + 2] = bitRead(_bl99_id, i);
     }
     // канал
     if (_bl99_channel == 1 || _bl99_channel == 3) {
@@ -187,27 +188,28 @@ void BL99::_bl999(int16_t temp, uint8_t humi, bool bat, bool bip) {
             _bl999_send(bl999_data[i]);
         }
     }
+    _bl999_send(2);
 }
 
 void BL99::_bl990_send(int8_t bit) {
     switch (bit) {
         case 0:  // ноль
             digitalWrite(_bl99_pin, HIGH);
-            delayMicroseconds(450);
+            delayMicroseconds(480);
             digitalWrite(_bl99_pin, LOW);
-            delayMicroseconds(1800);
+            delayMicroseconds(1950);
             break;
         case 1:  // единица
             digitalWrite(_bl99_pin, HIGH);
-            delayMicroseconds(450);
+            delayMicroseconds(480);
             digitalWrite(_bl99_pin, LOW);
             delayMicroseconds(4500);
             break;
         case 2:  // стартовый бит
             digitalWrite(_bl99_pin, HIGH);
-            delayMicroseconds(450);
+            delayMicroseconds(480);
             digitalWrite(_bl99_pin, LOW);
-            delayMicroseconds(9450);
+            delayMicroseconds(9400);
             break;
     }
 }
@@ -218,19 +220,19 @@ void BL99::_bl999_send(int8_t bit) {
             digitalWrite(_bl99_pin, HIGH);
             delayMicroseconds(450);
             digitalWrite(_bl99_pin, LOW);
-            delayMicroseconds(1800);
+            delayMicroseconds(1900);
             break;
         case 1:  // единица
             digitalWrite(_bl99_pin, HIGH);
             delayMicroseconds(450);
             digitalWrite(_bl99_pin, LOW);
-            delayMicroseconds(3800);
+            delayMicroseconds(4000);
             break;
         case 2:  // стартовый бит
             digitalWrite(_bl99_pin, HIGH);
             delayMicroseconds(450);
             digitalWrite(_bl99_pin, LOW);
-            delayMicroseconds(8800);
+            delayMicroseconds(8900);
             break;
     }
 }
